@@ -1,0 +1,25 @@
+{
+  "name": "AyayaAuth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.9",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.12",
+    "@types/jsonwebtoken": "^8.5.1",
+    "@types/mongodb": "^3.6.17",
+    "@types/uuid": "^8.3.0"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "ts-node test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
