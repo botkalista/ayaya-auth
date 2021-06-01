@@ -8,7 +8,11 @@ export type UserRepositoryConfig = {
     jwtKey: string,
     dbName: string,
     userCollection: string,
-    userModel: any
+    userModel: any,
+    routes?: {
+        registration?: '/create',
+        login?: '/login',
+    }
 }
 
 export class UserRepository {
@@ -98,7 +102,7 @@ export class UserRepository {
         return user;
     }
 
-    verifyToken(token: string): any{
+    verifyToken(token: string): any {
         try {
             const data = jwt.verify(token, this.config.jwtKey);
             return data;

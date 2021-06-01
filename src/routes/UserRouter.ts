@@ -5,9 +5,12 @@ import { UserRepository, UserRepositoryConfig } from '../repositories/UserRepo';
 const UserRouter = Router();
 UserRouter.use(json());
 
+
 let repo: UserRepository;
+let conf: UserRepositoryConfig;
 
 export async function createRouter(config: UserRepositoryConfig) {
+    conf = config;
     repo = new UserRepository(config);
     await repo.init();
     return UserRouter;
@@ -34,7 +37,7 @@ export async function needAuthentication(req: expressRequest, res: expressRespon
 }
 
 
-UserRouter.post('/create', async (req, res) => {
+UserRouter.post(conf.routes.registration, async (req, res) => {
 
     const { username, password, email } = req.body;
 
@@ -45,7 +48,7 @@ UserRouter.post('/create', async (req, res) => {
 
 });
 
-UserRouter.post('/login', async (req, res) => {
+UserRouter.post(conf.routes.login, async (req, res) => {
 
     const { username, password } = req.body;
 

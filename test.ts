@@ -1,6 +1,6 @@
 import * as express from 'express';
 
-import { registerRoutes, authMiddleware } from './ayaya-auth/src/index';
+import { registerRoutes, authMiddleware } from './src/index';
 
 const app = express();
 
@@ -11,6 +11,10 @@ registerRoutes(app, '/account', {
     userCollection: 'Users',
     userModel: {
         test: 123
+    },
+    routes: {
+        login: '/login',
+        registration: '/create'
     }
 });
 
