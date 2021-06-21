@@ -1,8 +1,8 @@
 {
-  "name": "AyayaAuth",
-  "version": "1.0.0",
+  "name": "ayaya-auth",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.ts",
   "dependencies": {
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
