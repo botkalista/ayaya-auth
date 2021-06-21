@@ -44,9 +44,42 @@ var repo;
 var conf;
 function createRouter(userRepo, config) {
     return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
         return __generator(this, function (_a) {
             conf = config;
             repo = userRepo;
+            UserRouter.post(conf.routes.registration, function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+                var _a, username, password, email, creation;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            _a = req.body, username = _a.username, password = _a.password, email = _a.email;
+                            return [4 /*yield*/, repo.createUser(username, password, email)];
+                        case 1:
+                            creation = _b.sent();
+                            if (creation)
+                                return [2 /*return*/, res.status(400).json({ error: creation })];
+                            res.status(200).json({ ok: true });
+                            return [2 /*return*/];
+                    }
+                });
+            }); });
+            UserRouter.post(conf.routes.login, function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+                var _a, username, password, token;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            _a = req.body, username = _a.username, password = _a.password;
+                            return [4 /*yield*/, repo.loginUser(username, password)];
+                        case 1:
+                            token = _b.sent();
+                            if (!token)
+                                return [2 /*return*/, res.status(400).json({ error: 'Login error' })];
+                            res.status(200).json({ token: token });
+                            return [2 /*return*/];
+                    }
+                });
+            }); });
             return [2 /*return*/, UserRouter];
         });
     });
@@ -78,35 +111,3 @@ function needAuthentication(req, res, next) {
     });
 }
 exports.needAuthentication = needAuthentication;
-UserRouter.post(conf.routes.registration, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, username, password, email, creation;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, username = _a.username, password = _a.password, email = _a.email;
-                return [4 /*yield*/, repo.createUser(username, password, email)];
-            case 1:
-                creation = _b.sent();
-                if (creation)
-                    return [2 /*return*/, res.status(400).json({ error: creation })];
-                res.status(200).json({ ok: true });
-                return [2 /*return*/];
-        }
-    });
-}); });
-UserRouter.post(conf.routes.login, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, username, password, token;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, username = _a.username, password = _a.password;
-                return [4 /*yield*/, repo.loginUser(username, password)];
-            case 1:
-                token = _b.sent();
-                if (!token)
-                    return [2 /*return*/, res.status(400).json({ error: 'Login error' })];
-                res.status(200).json({ token: token });
-                return [2 /*return*/];
-        }
-    });
-}); });
