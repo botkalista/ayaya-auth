@@ -1,18 +1,19 @@
 
 import { Router, json, Request as expressRequest, Response as expressResponse } from 'express';
-import { UserRepository, UserRepositoryConfig } from '../repositories/UserRepo';
+import { UserRepository } from '../repositories/UserRepo';
+
+import { AuthConfig } from '../types/AuthConfig'
 
 const UserRouter = Router();
 UserRouter.use(json());
 
 
 let repo: UserRepository;
-let conf: UserRepositoryConfig;
+let conf: AuthConfig;
 
-export async function createRouter(config: UserRepositoryConfig) {
+export async function createRouter(userRepo: UserRepository, config: AuthConfig) {
     conf = config;
-    repo = new UserRepository(config);
-    await repo.init();
+    repo = userRepo;
     return UserRouter;
 }
 

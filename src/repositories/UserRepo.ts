@@ -2,33 +2,16 @@ import { MongoClient, Collection } from 'mongodb';
 
 import * as jwt from 'jsonwebtoken';
 import * as uuid from 'uuid';
-
-export type UserRepositoryConfig = {
-    connectionString: string,
-    jwtKey: string,
-    dbName: string,
-    userCollection: string,
-    userModel: any,
-    routes?: {
-        registration?: '/create',
-        login?: '/login',
-    }
-}
+import { AuthConfig } from '../types/AuthConfig';
 
 export class UserRepository {
 
-    private config: UserRepositoryConfig;
-
-    private client: MongoClient;
     private collection: Collection;
-
-    constructor(config: UserRepositoryConfig) {
+    private config: AuthConfig;
+    
+    constructor(collection: Collection, config: AuthConfig) {
+        this.collection = collection;
         this.config = config;
-    }
-
-    async init() {
-        this.client = await new MongoClient(this.config.connectionString).connect();
-        this.collection = this.client.db(this.config.dbName).collection(this.config.userCollection);
     }
 
     private validateCreateUser(username: string, password: string, email: string): string {
