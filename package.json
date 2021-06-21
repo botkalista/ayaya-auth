@@ -1,6 +1,6 @@
 {
   "name": "ayaya-auth",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "compiled/index.js",
   "dependencies": {

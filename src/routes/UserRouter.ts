@@ -14,6 +14,30 @@ let conf: AuthConfig;
 export async function createRouter(userRepo: UserRepository, config: AuthConfig) {
     conf = config;
     repo = userRepo;
+
+    UserRouter.post(conf.routes.registration, async (req, res) => {
+
+        const { username, password, email } = req.body;
+
+        const creation = await repo.createUser(username, password, email);
+        if (creation) return res.status(400).json({ error: creation });
+
+        res.status(200).json({ ok: true });
+
+    });
+
+    UserRouter.post(conf.routes.login, async (req, res) => {
+
+        const { username, password } = req.body;
+
+        const token = await repo.loginUser(username, password);
+
+        if (!token) return res.status(400).json({ error: 'Login error' });
+
+        res.status(200).json({ token });
+
+    });
+
     return UserRouter;
 }
 
@@ -38,25 +62,4 @@ export async function needAuthentication(req: expressRequest, res: expressRespon
 }
 
 
-UserRouter.post(conf.routes.registration, async (req, res) => {
 
-    const { username, password, email } = req.body;
-
-    const creation = await repo.createUser(username, password, email);
-    if (creation) return res.status(400).json({ error: creation });
-
-    res.status(200).json({ ok: true });
-
-});
-
-UserRouter.post(conf.routes.login, async (req, res) => {
-
-    const { username, password } = req.body;
-
-    const token = await repo.loginUser(username, password);
-
-    if (!token) return res.status(400).json({ error: 'Login error' });
-
-    res.status(200).json({ token });
-
-});
