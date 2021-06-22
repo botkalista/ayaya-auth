@@ -31,8 +31,7 @@ export async function registerRoutes(app, path, config: AuthConfig) {
     await init(config);
     const router = await createRouter(userRepo, config);
     app.use(path, router);
-    return router;
+    return { router, usersCollection, client };
 }
 
 export const authMiddleware = needAuthentication;
-
