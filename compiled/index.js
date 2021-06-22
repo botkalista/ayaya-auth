@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.authMiddleware = exports.registerRoutes = void 0;
+exports.authMiddleware = exports.registerRoutes = exports.disconnect = void 0;
 var mongodb_1 = require("mongodb");
 var UserRepo_1 = require("./repositories/UserRepo");
 var UserRouter_1 = require("./routes/UserRouter");
@@ -57,15 +57,52 @@ function init(config) {
         });
     });
 }
+function disconnect(options) {
+    if (options === void 0) { options = { force: false }; }
+    return __awaiter(this, void 0, void 0, function () {
+        var i;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!options.force) return [3 /*break*/, 6];
+                    i = 0;
+                    _a.label = 1;
+                case 1:
+                    if (!(i < 5)) return [3 /*break*/, 5];
+                    return [4 /*yield*/, new Promise(function (r) { return setTimeout(r, 1000); })];
+                case 2:
+                    _a.sent();
+                    if (!(client && client.isConnected())) return [3 /*break*/, 4];
+                    return [4 /*yield*/, client.close()];
+                case 3: return [2 /*return*/, _a.sent()];
+                case 4:
+                    i++;
+                    return [3 /*break*/, 1];
+                case 5: return [3 /*break*/, 8];
+                case 6:
+                    if (!client)
+                        return [2 /*return*/];
+                    if (!client.isConnected()) return [3 /*break*/, 8];
+                    return [4 /*yield*/, client.close()];
+                case 7:
+                    _a.sent();
+                    _a.label = 8;
+                case 8: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.disconnect = disconnect;
 function registerRoutes(app, path, config) {
     return __awaiter(this, void 0, void 0, function () {
         var router;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    init(config);
-                    return [4 /*yield*/, UserRouter_1.createRouter(userRepo, config)];
+                case 0: return [4 /*yield*/, init(config)];
                 case 1:
+                    _a.sent();
+                    return [4 /*yield*/, UserRouter_1.createRouter(userRepo, config)];
+                case 2:
                     router = _a.sent();
                     app.use(path, router);
                     return [2 /*return*/, router];
